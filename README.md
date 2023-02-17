@@ -1,1 +1,2 @@
-# thesis
+# Thesis
+1. 
