@@ -2,13 +2,13 @@
 This project aims to address three objectives: 1) identify candidate genes that undergo and/or participate in differential alternative splicing in MVH-knockout samples, 2) identify downstream pathways in which VASA regulates, and 3) conduct a comparative analysis with the glioblastoma stem cells in humans based on genes and pathways. If VASA/DDX4 is shown to play a role in alternative splicing, it will facilitate a deeper understanding of the greater network of VASA/DDX4 in mice and potentially humans. 
 \
 \
-The paper can be found here: [full thesis paper](files/YLee_final.pdf)
+The paper can be found here: [thesis paper](files/YLee_final.pdf)
 \
 \
-This page lays out the general workflow of the project. The entire code can be found here: [full code](files/oscar_script.R)
+This page lays out the general workflow of the project. The entire code can be found here: [code](files/oscar_script.R)
 \
 \
-The full GitHub repository can be found here: [github repo](https://github.com/ylee131/thesis)
+The full GitHub repository can be found here: [repo](https://github.com/ylee131/thesis)
 \
 \
 ***Outline:***
@@ -243,6 +243,5 @@ cnetplot(kk2_pval0.05, categorySize="pvalue", showCategory=kk2_pval0.05$Descript
 gseaplot(kk2_pval0.05, by = "all", title = kk2_pval0.05$Description[220], geneSetID = 220)
 dme_pval0.05 <- pathview(gene.data=kegg_gene_list_pval0.05, pathway.id=kk2_pval0.05$ID[220], species = "mmu")
 ```
-<sub>Made with :love_letter: by Yuna Lee \
-Brown University Yajima Lab © [@ylee131](https://github.com/ylee131)
-</sub>
+<sub>Made with :love_letter: by Yuna Lee</sub> \
+<sub>Brown University Yajima Lab © [@ylee131](https://github.com/ylee131)</sub>
