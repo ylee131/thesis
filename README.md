@@ -5,7 +5,7 @@ This project aims to address three objectives: 1) identify candidate genes that 
 The paper can be found here: [full thesis paper](files/YLee_final.pdf)
 \
 \
-This page lays out the general workflow of the project. The entire code can be found here: [full code](files/oscar_script)
+This page lays out the general workflow of the project. The entire code can be found here: [full code](files/oscar_script.R)
 \
 \
 ***Outline:***
