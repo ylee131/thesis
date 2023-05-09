@@ -2,10 +2,10 @@
 This project aims to address three objectives: 1) identify candidate genes that undergo and/or participate in differential alternative splicing in MVH-knockout samples, 2) identify downstream pathways in which VASA regulates, and 3) conduct a comparative analysis with the glioblastoma stem cells in humans based on genes and pathways. If VASA/DDX4 is shown to play a role in alternative splicing, it will facilitate a deeper understanding of the greater network of VASA/DDX4 in mice and potentially humans. 
 \
 \
-The paper can be found here: 
+The paper can be found here: [full thesis paper](files/YLee_final.pdf)
 \
 \
-This page lays out the general workflow of the project. The entire code can be found here: 
+This page lays out the general workflow of the project. The entire code can be found here: [full code](files/oscar_script.R)
 \
 \
 ***Outline:***
