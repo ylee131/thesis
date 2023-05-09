@@ -152,3 +152,81 @@ plotDEXSeq( dxr, "ENSMUST00000000001.4", legend=TRUE, displayTranscripts=TRUE )
 ```
 
 ## Pathway analysis (ClusterProfiler)
+### ORA analysis using enrichGO
+```
+temp_pvalue0.001 <- pvalue_0.001$...1
+for (i in 1:length(temp_pvalue0.001)) {
+  temp_pvalue0.001[i] <- gsub("\\..*","",temp_pvalue0.001[i])
+}
+final_pvalue0.001_symbols <- getBM(
+  attributes = c('ensembl_gene_id',
+                 'mgi_symbol'),
+  filters = 'ensembl_gene_id',
+  values = temp_pvalue0.001,
+  mart = ensembl)
+enrgo_pval0.001 <- enrichGO(gene          = final_pvalue0.001_symbols$mgi_symbol,
+                            universe = uni_gene_list,
+                            OrgDb         = organism,
+                            keyType = "SYMBOL",
+                            ont           = "ALL")
+dotplot(enrgo_pval0.001, showCategory=15, font.size=15, label_format=50)+theme(legend.text = element_text(size=10))
+```
+### GSEA analysis
+```
+gsea_pval0.001_genes <- pvalue_0.001$log2FoldChange
+names(gsea_pval0.001_genes) <- temp_pvalue0.001
+#names(gsea_pval0.05_genes) <- final_pval0.05_symbols$mgi_symbol
+temp_gsea <- pvalue_0.001[c("...1", "log2FoldChange")]
+for (i in 1:nrow(temp_gsea)) {
+  temp_gsea[i,1] <- gsub("\\..*","",temp_gsea[i,1])
+}
+genesymbols_gsea <- bitr(temp_gsea$...1, fromType="ENSEMBL", toType="SYMBOL", OrgDb="org.Mm.eg.db")
+temp_gsea__ <- temp_gsea[match(genesymbols_gsea[,1], temp_gsea$...1),]
+gsea_pval0.001_genes <- merge(genesymbols_gsea,temp_gsea__, by.x="ENSEMBL", by.y="...1")
+temp_again <- gsea_pval0.001_genes$log2FoldChange
+names(temp_again) <- gsea_pval0.001_genes$SYMBOL
+final_gsea <- na.omit(temp_again)
+final_gsea = sort(final_gsea, decreasing = TRUE)
+
+temp_1 <- pvalue_0.001$log2FoldChange
+names(temp_1) <- temp_pvalue0.001
+temp_1 = sort(temp_1, decreasing = TRUE)
+ego_gsea_pval0.001 <- gseGO(geneList = temp_1,
+                            OrgDb = organism,
+                            ont ="ALL", 
+                            keyType = "ENSEMBL", 
+                            verbose = TRUE,
+                            pAdjustMethod = "none")
+dotplot(ego_gsea_pval0.001, showCategory=10, split=".sign", font.size=12, label_format=70) + facet_grid(.~.sign)+theme(legend.text = element_text(size=10))
+```
+### KEGG for filtered genes
+```
+temp_pval0.001_kegg <- pvalue_0.001$...1
+for (i in 1:length(temp_pval0.001_kegg)) {
+  temp_pval0.001_kegg[i] <- gsub("\\..*","",temp_pval0.001_kegg[i])
+}
+ids_pval0.001<-bitr(temp_pval0.001_kegg, fromType = "ENSEMBL", toType = "ENTREZID", OrgDb=organism)
+dedup_ids_pval0.001 = ids_pval0.001[!duplicated(ids_pval0.001[c("ENSEMBL")]),]
+temp_uni_pval0.001 <- uni_genes
+for (i in 1:nrow(temp_uni_pval0.001)) {
+  temp_uni_pval0.001[i,1] <- gsub("\\..*","",temp_uni_pval0.001[i,1])
+}
+df_pval0.001 = temp_uni_pval0.001[temp_uni_pval0.001$X %in% dedup_ids_pval0.001$ENSEMBL,]
+df_pval0.001$Y = dedup_ids_pval0.001$ENTREZID
+kegg_gene_list_pval0.001 <- df_pval0.001$log2FoldChange
+names(kegg_gene_list_pval0.001) <- df_pval0.001$Y
+kegg_gene_list_pval0.001<-na.omit(kegg_gene_list_pval0.001)
+kegg_gene_list_pval0.001 = sort(kegg_gene_list_pval0.001, decreasing = TRUE)
+kk2_pval0.001 <- gseKEGG(geneList     = kegg_gene_list_pval0.001,
+                         organism     = "mmu",
+                         nPerm        = 10000,
+                         minGSSize    = 3,
+                         maxGSSize    = 800,
+                         pvalueCutoff = 1,
+                         pAdjustMethod = "none",
+                         keyType       = "ncbi-geneid")
+dotplot(kk2_pval0.05, showCategory = 10, title = "Enriched Pathways" , split=".sign", font.size=15, label_format=70) + facet_grid(.~.sign)+theme(legend.text = element_text(size=10))
+cnetplot(kk2_pval0.05, categorySize="pvalue", showCategory=kk2_pval0.05$Description[220])
+gseaplot(kk2_pval0.05, by = "all", title = kk2_pval0.05$Description[220], geneSetID = 220)
+dme_pval0.05 <- pathview(gene.data=kegg_gene_list_pval0.05, pathway.id=kk2_pval0.05$ID[220], species = "mmu")
+```
