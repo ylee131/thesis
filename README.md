@@ -8,6 +8,9 @@ The paper can be found here: [full thesis paper](files/YLee_final.pdf)
 This page lays out the general workflow of the project. The entire code can be found here: [full code](files/oscar_script.R)
 \
 \
+The full GitHub repository can be found here: [github repo](https://github.com/ylee131/thesis)
+\
+\
 ***Outline:***
 1. RNA-seq pre-processing and mapping
 2. Differential expression gene analysis
@@ -240,3 +243,6 @@ cnetplot(kk2_pval0.05, categorySize="pvalue", showCategory=kk2_pval0.05$Descript
 gseaplot(kk2_pval0.05, by = "all", title = kk2_pval0.05$Description[220], geneSetID = 220)
 dme_pval0.05 <- pathview(gene.data=kegg_gene_list_pval0.05, pathway.id=kk2_pval0.05$ID[220], species = "mmu")
 ```
+<sub>Made with :love_letter: by Yuna Lee \
+Brown University Yajima Lab © [@ylee131](https://github.com/ylee131)
+</sub>
